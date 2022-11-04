@@ -172,7 +172,7 @@ async function getVersion(owner, repo) {
 function getV(owner, repo) {
     var versions = [];
     getVersion(owner, repo).then((v)=>{
-        //console.log('v.data:  ', v.data); 
+        console.log('v.data:  ', v.data); 
         let i = 0;
         for (let obj of v.data) {
             console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
@@ -182,6 +182,7 @@ function getV(owner, repo) {
         
     },(v)=>{ console.log("运行错误:"+res);
     });
+    console.log('hahahahha'); 
     return versions;
 }
 
