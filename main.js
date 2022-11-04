@@ -80,19 +80,9 @@ for (i = 0; i < s.length; i++) {
     if (!isConcrete) {
         if (isLatest) {
             let a = action.split("/");
-            //console.log(a[0]+a[1]);
+            console.log(a[0]+"/"+a[1]);
             use_version = need_version;
-            getVersion(a[0], a[1]).then((v)=>{
-                    //console.log('v.data:  ', v.data); 
-                    //let i = 0;
-                    for (let obj of v.data) {
-                        console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
-                        //versions[i] = obj.tag_name;
-                        //i++; 
-                    }
-                },(v)=>{ console.log("运行错误:"+res);
-            });
-            console.log("getlatestVersion:"+ use_version);
+            getV(a[0], a[1]);
         } else {
             
         }
@@ -192,7 +182,7 @@ function getV(owner, repo) {
     });
 }
 
-getV('actions','checkout');
+
 
 //dajfklja
 // let connection =mysql.createConnection({
