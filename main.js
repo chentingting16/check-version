@@ -80,6 +80,7 @@ for (i = 0; i < s.length; i++) {
     if (!isConcrete) {
         if (isLatest) {
             let a = action.split("/");
+            console.log(a[0]+a[1]);
             use_version = getV(a[0], a[1])[0];
             console.log("getlatestVersion:"+ use_version);
         } else {
