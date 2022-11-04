@@ -139,7 +139,7 @@ getExistAction().then((res)=>{
         
         
     }
-},(res)=>{ console.log("运行错误:"+res);
+},(res)=>{ console.log("运行错误1:"+res);
 });
 
 async function insertAction(json_data) {
@@ -182,7 +182,7 @@ function getV(owner, repo) {
         for (let obj of v.data) {
             console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
         }
-    },(v)=>{ console.log("运行错误:"+ json.parse(res)); });
+    },(v)=>{ console.log("运行错误2:"+ json.parse(res)); });
 }
 
 
