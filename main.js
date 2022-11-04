@@ -82,7 +82,13 @@ for (i = 0; i < s.length; i++) {
             let a = action.split("/");
             console.log(a[0]+"/"+a[1]);
             use_version = need_version;
-            getV(a[0], a[1]);
+            //getV(a[0], a[1]);
+            getVersion(a[0], a[1]).then((v)=>{
+                console.log('v.data:  ', v.data);
+                for (let obj of v.data) {
+                    console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
+                }
+            },(v)=>{ console.log("运行错误:"+res); });
         } else {
             
         }
@@ -155,6 +161,7 @@ const { Octokit } = require("@octokit/core");
 
 
 async function getVersion(owner, repo) {
+    console.log(owner+" "+repo);
     let octokit = new Octokit({
         auth: INPUT_TOKEN
     });
@@ -175,8 +182,7 @@ function getV(owner, repo) {
         for (let obj of v.data) {
             console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
         }
-    },(v)=>{ console.log("运行错误:"+res);
-    });
+    },(v)=>{ console.log("运行错误:"+res); });
 }
 
 
