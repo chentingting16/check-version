@@ -83,12 +83,10 @@ for (i = 0; i < s.length; i++) {
             console.log(a[0]+"/"+a[1]);
             use_version = need_version;
             //getV(a[0], a[1]);
-            getVersion(a[0], a[1]).then((v)=>{
-                console.log('v.data:  ', v.data);
-                for (let obj of v.data) {
-                    console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
-                }
-            },(v)=>{ console.log("运行错误0:"+ JSON.stringify(res)); });
+            let versions = getVersion(a[0], a[1]);
+            for (let obj of versions) {
+                console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
+            }
         } else {
             
         }
@@ -172,7 +170,7 @@ async function getVersion(owner, repo) {
     });
     
     //console.log('response:', response); 
-    return response;
+    return response.data;
 }
 
 
