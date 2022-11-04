@@ -1,6 +1,9 @@
-function Action(name,version) {
+function Action(name,need_version,use_version,isLatest,isConcrete) {
     this.name = name;
-    this.version = version;
+    this.need_version = need_version;
+    this.use_version = use_version;
+    this.isLatest = isLatest;
+    this.isConcrete = isConcrete;
 }
 
 const path = require("path"); 
@@ -65,12 +68,27 @@ var s= str.split("\n").filter(function(e){
 
 var action_list = [];
 for (i = 0; i < s.length; i++) {
-    var temp = s[i].split(':');
-    var action_version = temp[1].trim().split("@");
-    var action = action_version[0];
-    var version = action_version[1];
-    action_list[i] = new Action(action, version);
+    let temp = s[i].split(':');
+    let action_version = temp[1].trim().split("@");
+    let action = action_version[0];
+    let need_version = action_version[1];
+    // function Action(name,need_version,use_version,isLatest,isConcrete) {
+    let isLatest = need_version.includes("latest");
+    var posPattern = /^\d+\.\d+\.\d+$/;
+    let isConcrete = posPattern.test(need_version);
+    let use_version = need_version;
+    if (!isConcrete) {
+        if (isLatest) {
+            let a = action.split("/");
+            use_version = getV(a[0], a[1])[0];
+            console.log("getlatestVersion:"+ use_version);
+        } else {
+            
+        }
+    }
+    action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
 }
+
 var json_data = JSON.stringify(action_list);
 console.log(json_data);
 
@@ -133,14 +151,6 @@ const { Octokit } = require("@octokit/core");
 // Octokit.js
 // https://github.com/octokit/core.js#readme
 
-// var v = getVersion('nickchou', 'paopao');
-// // for (let obj of JSON.parse(v.data)) {
-// //     obj = JSON.parse(obj);
-// //     console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
-// // }
-// console.log('v  ', v); 
-// console.log('v.data:  ', v.data); 
-// console.log('typeof v.data:  ', typeof(v.data)); 
 
 async function getVersion(owner, repo) {
     let octokit = new Octokit({
@@ -157,14 +167,23 @@ async function getVersion(owner, repo) {
 }
 
 
-getVersion('nickchou', 'paopao').then((v)=>{
-    //console.log('v.data:  ', v.data); 
-    for (let obj of v.data) {
-        console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
-    }
-},(v)=>{ console.log("运行错误:"+res);
-});
+function getV(owner, repo) {
+    var versions = [];
+    getVersion(owner, repo).then((v)=>{
+        //console.log('v.data:  ', v.data); 
+        let i = 0;
+        for (let obj of v.data) {
+            console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
+            versions[i] = obj.tag_name;
+            i++; 
+        }
+        
+    },(v)=>{ console.log("运行错误:"+res);
+    });
+    return versions;
+}
 
+//dajfklja
 // let connection =mysql.createConnection({
 //     host: "rm-uf60x57re73u05414go.mysql.rds.aliyuncs.com",//连接本地计算机
 //     port:3306,//端口
