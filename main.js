@@ -93,10 +93,10 @@ for (i = 0; i < s.length; i++) {
 //                 console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
 //             }
             getVersion(a[0], a[1]).then((v)=>{
-                console.log('v.data:  ', v.data);
-//         for (let obj of v.data) {
-//             console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
-//         }
+                console.log('v.data:  ', v);
+                for (let obj of v) {
+                    console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
+                }   
             },(v)=>{ console.log("运行错误2:"+ JSON.stringify(res)); });
             
         } else {
