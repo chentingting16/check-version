@@ -89,9 +89,10 @@ for (i = 0; i < s.length; i++) {
             use_version = need_version;
             //getV(a[0], a[1]);
             let versions = getVersion(a[0], a[1]);
-//             for (let obj of versions) {
-//                 console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
-//             }
+            for (let obj of versions) {
+                console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
+            }
+            
         } else {
             
         }
@@ -171,8 +172,8 @@ async function getVersion(owner, repo) {
         repo: repo
     });
     
-    console.log('response:', response); 
-    return response;
+    //console.log('response:', response); 
+    return response.data;
 }
 
 
