@@ -169,7 +169,7 @@ async function getVersion(owner, repo) {
         repo: repo
     });
     
-    //console.log('response:', response); 
+    console.log('response:', response.data); 
     return response.data;
 }
 
