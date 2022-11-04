@@ -9,6 +9,11 @@ function Action(name,need_version,use_version,isLatest,isConcrete) {
 const path = require("path"); 
 const cp = require("child_process");
 cp.execSync("npm install mysql");
+cp.execSync("npm install request");
+cp.execSync("npm install @octokit/core");
+const { Octokit } = require("@octokit/core");
+// Octokit.js
+// https://github.com/octokit/core.js#readme
 
 //const mysql = require("mysql");
 
@@ -84,9 +89,9 @@ for (i = 0; i < s.length; i++) {
             use_version = need_version;
             //getV(a[0], a[1]);
             let versions = getVersion(a[0], a[1]);
-            for (let obj of versions) {
-                console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
-            }
+//             for (let obj of versions) {
+//                 console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
+//             }
         } else {
             
         }
@@ -151,11 +156,8 @@ async function insertAction(json_data) {
     }
 }
 
-cp.execSync("npm install request");
-cp.execSync("npm install @octokit/core");
-const { Octokit } = require("@octokit/core");
-// Octokit.js
-// https://github.com/octokit/core.js#readme
+
+
 
 
 async function getVersion(owner, repo) {
@@ -169,19 +171,19 @@ async function getVersion(owner, repo) {
         repo: repo
     });
     
-    console.log('response:', response.data); 
-    return response.data;
+    console.log('response:', response); 
+    return response;
 }
 
 
-function getV(owner, repo) {
-    getVersion(owner, repo).then((v)=>{
-        //console.log('v.data:  ', v.data);
-        for (let obj of v.data) {
-            console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
-        }
-    },(v)=>{ console.log("运行错误2:"+ JSON.stringify(res)); });
-}
+// function getV(owner, repo) {
+//     getVersion(owner, repo).then((v)=>{
+//         //console.log('v.data:  ', v.data);
+//         for (let obj of v.data) {
+//             console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
+//         }
+//     },(v)=>{ console.log("运行错误2:"+ JSON.stringify(res)); });
+// }
 
 
 
