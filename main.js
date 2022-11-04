@@ -73,7 +73,7 @@ for (i = 0; i < s.length; i++) {
     let action = action_version[0];
     let need_version = action_version[1];
     // function Action(name,need_version,use_version,isLatest,isConcrete) {
-    let isLatest = need_version.includes("latest");
+    let isLatest = need_version.includes("lastest");
     var posPattern = /^\d+\.\d+\.\d+$/;
     let isConcrete = posPattern.test(need_version);
     let use_version = need_version;
