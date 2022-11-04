@@ -88,7 +88,7 @@ for (i = 0; i < s.length; i++) {
                 for (let obj of v.data) {
                     console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
                 }
-            },(v)=>{ console.log("运行错误0:"+ JSON.parse(res)); });
+            },(v)=>{ console.log("运行错误0:"+ JSON.stringify(res)); });
         } else {
             
         }
@@ -182,7 +182,7 @@ function getV(owner, repo) {
         for (let obj of v.data) {
             console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
         }
-    },(v)=>{ console.log("运行错误2:"+ JSON.parse(res)); });
+    },(v)=>{ console.log("运行错误2:"+ JSON.stringify(res)); });
 }
 
 
