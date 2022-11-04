@@ -88,7 +88,7 @@ for (i = 0; i < s.length; i++) {
                 for (let obj of v.data) {
                     console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
                 }
-            },(v)=>{ console.log("运行错误:"+res); });
+            },(v)=>{ console.log("运行错误0:"+json.parse(res)); });
         } else {
             
         }
