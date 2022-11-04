@@ -82,7 +82,7 @@ for (i = 0; i < s.length; i++) {
             let a = action.split("/");
             console.log(a[0]+"/"+a[1]);
             use_version = need_version;
-            getV(""+a[0], ""+a[1]);
+            getV(a[0], a[1]);
         } else {
             
         }
