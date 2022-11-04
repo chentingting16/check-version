@@ -87,6 +87,7 @@ for (i = 0; i < s.length; i++) {
         }
     }
     action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
+    console.log(JSON.stringify(action_list[i]));
 }
 
 var json_data = JSON.stringify(action_list);
@@ -105,7 +106,7 @@ async function getExistAction() {
         //[{\"name\":\"actions/checkout\",\"version\":\"v2\"},{\"name\":\"actions/cache\",\"version\":\"v2\"},{\"name\":\"actions/stale\",\"version\":\"v6.0.1\"}]
         let i = 0;
         for (let obj of actions_obj) {
-            console.log(`name:${obj.name}` + `  version:${obj.version}`);
+            console.log(`name:${obj.name}`);
             actions_db[i] = new Action(obj.name,obj.version);
             i++;
         }
