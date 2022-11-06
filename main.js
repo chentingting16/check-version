@@ -12,29 +12,11 @@ cp.execSync("npm install mysql");
 cp.execSync("npm install request");
 cp.execSync("npm install @octokit/core");
 const { Octokit } = require("@octokit/core");
-// Octokit.js
-// https://github.com/octokit/core.js#readme
 
-//const mysql = require("mysql");
 
 const event = require(process.env.GITHUB_EVENT_PATH);
 const {INPUT_PATH, INPUT_FILE, INPUT_TOKEN} = process.env;
 var file = path.join(INPUT_PATH, INPUT_FILE);
-
-// var regex = new RegExp(process.env.GITHUB_WORKSPACE+"(\\S*)");
-// var action_file = process.argv[1];
-// console.log(process.env.GITHUB_WORKSPACE);
-// console.log(action_file);
-// if (action_file.match(regex)) {
-//     action_file=action_file.match(regex)[1];
-//     console.log('matched');
-// } else {
-//     console.log('unmatched');
-//     return;
-// }
-// file = path.join(INPUT_PATH, action_file);
-// console.log(file);
-
 
 // https://developer.github.com/v3/repos/contents/#get-contents
 const res = cp.spawnSync("curl", [
@@ -52,7 +34,6 @@ const res = cp.spawnSync("curl", [
 // https://blog.csdn.net/weixin_34416649/article/details/93643111?spm=1001.2101.3001.6650.4&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-4-93643111-blog-121543187.pc_relevant_3mothn_strategy_recovery&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-4-93643111-blog-121543187.pc_relevant_3mothn_strategy_recovery&utm_relevant_index=9
 // VERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")
 // echo $VERSION
-
   
 if (res.status != 0) {
     console.log(`::error ::${res.stderr.toString()}`);
@@ -65,11 +46,6 @@ var s= str.split("\n").filter(function(e){
     var k=e.split(":");
     return k[0].includes("uses");
 });
-
-//const base = JSON.parse(res.stdout.toString());
-//const head = require(path.resolve(process.cwd(), file));
-//console.log(`${base.name} v${base.version} => ${head.name} v${head.version}`);
-//console.log(s);
 
 var action_list = [];
 for (i = 0; i < s.length; i++) {
@@ -85,13 +61,13 @@ for (i = 0; i < s.length; i++) {
     if (!isConcrete) {
         if (isLatest) {
             let a = action.split("/");
-            //console.log(a[0]+"/"+a[1]);
             use_version = need_version;
             getVersion(a[0], a[1]).then((v)=>{
                 console.log(action + ` latest version:${v[0].tag_name}`);
                 use_version = v[0].tag_name;
             },(v)=>{ console.log("运行错误2:"+ JSON.stringify(res)); });
         } else {
+            
            
         }
     } else {
