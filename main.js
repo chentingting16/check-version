@@ -162,7 +162,7 @@ async function insertAction(json_data) {
 
 
 async function getVersion(owner, repo) {
-    console.log(owner+" "+repo);
+    //console.log(owner+" "+repo);
     let octokit = new Octokit({
         auth: INPUT_TOKEN
     });
