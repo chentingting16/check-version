@@ -87,16 +87,12 @@ for (i = 0; i < s.length; i++) {
             let a = action.split("/");
             console.log(a[0]+"/"+a[1]);
             use_version = need_version;
-            //getV(a[0], a[1]);
-//             let versions = getVersion(a[0], a[1]);
-//             for (let obj of versions) {
-//                 console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
-//             }
             getVersion(a[0], a[1]).then((v)=>{
-                console.log('v.data:  ', v);
-                for (let obj of v) {
-                    console.log(`name:${obj.name}` + ` version:${obj.tag_name}`);
-                }   
+               // console.log('v.data:  ', v);
+                console.log(`latest version:${v[0].tag_name}`);
+//                 for (let obj of v) {
+//                     console.log(`version:${obj.tag_name}`);
+//                 }   
             },(v)=>{ console.log("运行错误2:"+ JSON.stringify(res)); });
             
         } else {
