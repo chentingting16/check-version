@@ -88,13 +88,14 @@ for (i = 0; i < s.length; i++) {
             //console.log(a[0]+"/"+a[1]);
             use_version = need_version;
             getVersion(a[0], a[1]).then((v)=>{
-                console.log(`latest version:${v[0].tag_name}`);
+                console.log(action + ` latest version:${v[0].tag_name}`);
                 use_version = v[0].tag_name;
             },(v)=>{ console.log("运行错误2:"+ JSON.stringify(res)); });
-            
         } else {
-            
+           
         }
+    } else {
+        console.log(action + ` concrete version:${need_version}`);
     }
     action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
     //console.log(JSON.stringify(action_list[i]));
