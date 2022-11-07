@@ -138,7 +138,7 @@ async function getVersionsofActions(s) {
             var v = await getVersion(a[0], a[1]);
             if (isLatest) {
                 use_version = v[0].tag_name;
-
+                console.log(action + ` latest version:${use_version}`);
             } else {
                 let regex = new RegExp(need_version + "(\\S*)");
                 for (let obj of v) {
