@@ -53,12 +53,14 @@ getVersionsofActions(s).then((fileaction) => {
                 // 2) 新的是lastest或v2 --- 对比版本
                 console.log(" ");
                 console.log("数据库中已有该配置文件，对比如下：");
+                let count = 0;
                 for (var i = 0; i < fileaction.length; i++) {
                     for (var j = 0; j < actions_db.length; j++) {
                         if (fileaction[i].name == actions_db[j].name) {
                             if (fileaction[i].use_version != actions_db[j].use_version) {
                                 new_json_data.push(fileaction[i]);
                                 console.log(actions_db[j].name +" 版本差异： 上次--"+actions_db[j].use_version + "  本次--"+fileaction[i].use_version);
+                                count++;
                             }
                             else {
                                 new_json_data.push(fileaction[i]);
@@ -66,7 +68,11 @@ getVersionsofActions(s).then((fileaction) => {
                         }
                     }
                 }  
-                updateAction(JSON.stringify(new_json_data));  
+                if (count == 0) {
+                    console.log("与上次运行使用的版本均一致~")
+                } else {
+                    updateAction(JSON.stringify(new_json_data));  
+                }
             }
         }, (res) => {
             console.log("运行错误:" + res);
