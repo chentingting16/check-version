@@ -51,6 +51,7 @@ getVersionsofActions(s).then((fileaction) => {
                 }
                 // 1) 新的是确切版本 --- 不管
                 // 2) 新的是lastest或v2 --- 对比版本
+                console.log(" ");
                  console.log("数据库中已有该配置文件，对比如下：");
                 for (var i = 0; i < fileaction.length; i++) {
                     for (var j = 0; j < actions_db.length; j++) {
