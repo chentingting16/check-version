@@ -47,7 +47,7 @@ getVersionsofActions(s).then((fileaction) => {
                 console.log("【数据库中已有该配置文件，内容如下】");
                 //新的action_list与旧的action_list对比
                 for (var j = 0; j < actions_db.length; j++) {
-                   console.log(actions_db[j].name + "   used-version: "+actions_db[j].use_version);
+                   console.log(actions_db[j].name + "    used-version:"+actions_db[j].use_version);
                 }
                 // 1) 新的是确切版本 --- 不管
                 // 2) 新的是lastest或v2 --- 对比版本
@@ -59,7 +59,7 @@ getVersionsofActions(s).then((fileaction) => {
                         if (fileaction[i].name == actions_db[j].name) {
                             if (fileaction[i].use_version != actions_db[j].use_version) {
                                 new_json_data.push(fileaction[i]);
-                                console.log((count+1)+". "+actions_db[j].name +" 版本差异： 上次--"+actions_db[j].use_version + "  本次--"+fileaction[i].use_version);
+                                console.log((count+1)+"."+actions_db[j].name +" 版本差异：    上次--"+actions_db[j].use_version + "    本次--"+fileaction[i].use_version);
                                 count++;
                             }
                             else {
@@ -123,7 +123,6 @@ async function getExistAction(actions_db) {
         //console.log(JSON.stringify(data[0].actions));
         let i = 0;
         for (let obj of actions_obj) {
-            //console.log(`name:${obj.name}`);
             actions_db[i] = new Action(obj.name, obj.need_version, obj.use_version, obj.isLatest,obj.isConcrete);
             i++;
         }
@@ -152,20 +151,20 @@ async function getVersionsofActions(s) {
             var v = await getVersion(a[0], a[1]);
             if (isLatest) {
                 use_version = v[0].tag_name;
-                console.log(action + `need-version: ${need_version} ` +` latest-version:${use_version}`);
+                console.log(action + `    need-version: ${need_version}` +`    latest-version:${use_version}`);
             } else {
                 let regex = new RegExp(need_version + "(\\S*)");
                 for (let obj of v) {
                     let tag = obj.tag_name;
                     if (tag.match(regex)) {
                         use_version = tag;
-                        console.log(action + `need-version: ${need_version} `+ ` matched-version:${use_version}`);
+                        console.log(action + `    need-version: ${need_version}`+ `    matched-version:${use_version}`);
                         break;
                     }
                 }
             }
         } else {
-            console.log(action + `need-version: ${need_version} `+ ` concrete-version:${need_version}`);
+            console.log(action + `    need-version: ${need_version}`+ `    concrete-version:${need_version}`);
         }
 
         action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
