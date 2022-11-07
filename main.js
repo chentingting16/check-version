@@ -82,22 +82,19 @@ for (i = 0; i < s.length; i++) {
     } else {
         console.log(action + ` concrete version:${need_version}`);
     }
-    let t = true;
+
     sleep(5000).then(() => { 
         action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
-        t = false;
     });
-    while (t) {
-    
-    }
     //console.log(JSON.stringify(action_list[i]));
 }
 
 function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
- 
-var json_data = JSON.stringify(action_list);
+
+    sleep(5000).then(() => { 
+       var json_data = JSON.stringify(action_list);
 var actions_db = [];    
 getExistAction().then((res)=>{
     if (res) {
@@ -116,6 +113,27 @@ getExistAction().then((res)=>{
     }
 },(res)=>{ console.log("运行错误:"+res);
 });
+    });
+
+// var json_data = JSON.stringify(action_list);
+// var actions_db = [];    
+// getExistAction().then((res)=>{
+//     if (res) {
+//         console.log("数据库中无该配置文件，新增");
+//         //查询当前 模糊版本的确切版本
+        
+//         insertAction(json_data);
+//     } else {
+//         console.log("有数据了");
+//         // 新的action_list与旧的action_list对比
+//         // 1) 新的是确切版本 --- 不管
+        
+//         // 2) 新的是lastest或v2 --- 对比版本
+        
+        
+//     }
+// },(res)=>{ console.log("运行错误:"+res);
+// });
 
 
 async function insertAction(json_data) {
