@@ -52,7 +52,7 @@ getVersionsofActions(s).then((fileaction) => {
                 // 1) 新的是确切版本 --- 不管
                 // 2) 新的是lastest或v2 --- 对比版本
                 console.log(" ");
-                 console.log("数据库中已有该配置文件，对比如下：");
+                console.log("数据库中已有该配置文件，对比如下：");
                 for (var i = 0; i < fileaction.length; i++) {
                     for (var j = 0; j < actions_db.length; j++) {
                         if (fileaction[i].name == actions_db[j].name) {
@@ -60,9 +60,13 @@ getVersionsofActions(s).then((fileaction) => {
                                 new_json_data.push(fileaction[i]);
                                 console.log(actions_db[j].name +" 版本差异： 上次--"+actions_db[j].use_version + "  本次--"+fileaction[i].use_version);
                             }
+                            else {
+                                new_json_data.push(fileaction[i]);
+                            }
                         }
                     }
-                }    
+                }  
+                updateAction(JSON.stringify(new_json_data));  
             }
         }, (res) => {
             console.log("运行错误:" + res);
@@ -170,4 +174,17 @@ function Action(name,need_version,use_version,isLatest,isConcrete) {
     this.use_version = use_version;
     this.isLatest = isLatest;
     this.isConcrete = isConcrete;
+}
+
+
+async function updateAction(json_data) {
+    //UPDATE action SET actions = ? where project = ? and workflow = ?';
+    let sql = "UPDATE action SET actions = ? where project = ? and workflow = ?";
+    let params = [json_data, event.repository.id, process.env.GITHUB_WORKFLOW];
+    let [error, data] = await mysqlExec(sql, params);
+    if (error) {
+        console.log('更新成功:' + json_data);
+    } else {
+        console.log('sql执行失败' + data);
+    }
 }
