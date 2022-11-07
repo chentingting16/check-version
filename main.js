@@ -114,7 +114,7 @@ sleep(3000).then(() => {
         
         }
     },(res)=>{ console.log("运行错误1:"+res);});
-}
+});
 
 async function insertAction(json_data) {
     let sql = "INSERT INTO action(project,workflow,actions,last_modified) VALUES (?,?,?,now())";
