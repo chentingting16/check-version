@@ -65,7 +65,6 @@ for (i = 0; i < s.length; i++) {
             getVersion(a[0], a[1]).then((v)=>{
                 console.log(action + ` latest version:${v[0].tag_name}`);
                 use_version = v[0].tag_name;
-                action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
             },(v)=>{ console.log("运行错误2:"+ JSON.stringify(res)); });
         } else {
             let regex = new RegExp(need_version+"(\\S*)");
@@ -78,43 +77,41 @@ for (i = 0; i < s.length; i++) {
                         break;
                     }
                 }
-                action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
             },(v)=>{ console.log("运行错误3:"+ JSON.stringify(res)); });
         }
     } else {
         console.log(action + ` concrete version:${need_version}`);
-        action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
     }
-    
+    sleep(5000).then(() => { 
+        action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
+    });
     //console.log(JSON.stringify(action_list[i]));
 }
 
-
-var json_data = '';
 function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
  
-sleep(5000).then(() => {
-    json_data = json_data+JSON.stringify(action_list);
-    var actions_db = [];
-    let mysqlExec = require('./util.js');
-    getExistAction().then((res)=>{
-        if (res) {
-            console.log("数据库中无该配置文件，新增");
+var json_data = JSON.stringify(action_list);
+var actions_db = [];    
+getExistAction().then((res)=>{
+    if (res) {
+        console.log("数据库中无该配置文件，新增");
         //查询当前 模糊版本的确切版本
-            insertAction(json_data);
-        } else {
-            console.log("有数据了");
+        
+        insertAction(json_data);
+    } else {
+        console.log("有数据了");
         // 新的action_list与旧的action_list对比
         // 1) 新的是确切版本 --- 不管
         
         // 2) 新的是lastest或v2 --- 对比版本
         
         
-        }
-    },(res)=>{ console.log("运行错误1:"+res);});
+    }
+},(res)=>{ console.log("运行错误:"+res);
 });
+
 
 async function insertAction(json_data) {
     let sql = "INSERT INTO action(project,workflow,actions,last_modified) VALUES (?,?,?,now())";
