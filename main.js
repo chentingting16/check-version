@@ -137,3 +137,24 @@ async function getVersion(owner, repo) {
     return response.data;
 }
 
+
+async function getExistAction() {
+    var  sql = 'SELECT actions FROM action where project = ? and workflow = ?';
+    let params =[event.repository.id, process.env.GITHUB_WORKFLOW];
+    let [error, data] = await mysqlExec(sql, params);
+    if (error) {
+        if (data == null || data[0] == null) return true;
+        let actions_obj = JSON.parse(data[0].actions);
+        //[{\"name\":\"actions/checkout\",\"version\":\"v2\"},{\"name\":\"actions/cache\",\"version\":\"v2\"},{\"name\":\"actions/stale\",\"version\":\"v6.0.1\"}]
+        let i = 0;
+        for (let obj of actions_obj) {
+            console.log(`name:${obj.name}`);
+            actions_db[i] = new Action(obj.name,obj.version);
+            i++;
+        }
+        return false;
+    } else {
+        console.log('sql执行失败'+data);
+    }
+    return true;
+}
