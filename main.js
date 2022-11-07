@@ -70,7 +70,7 @@ for (i = 0; i < s.length; i++) {
             let regex = new RegExp(need_version+"(\\S*)");
             getVersion(a[0], a[1]).then((v)=>{
                 for (let obj of v) {
-                    let tag = v.tag_name;
+                    let tag = (v.tag_name).toString();
                     if (tag.match(regex)) {
                         use_version = v.tag_name;
                         break;
