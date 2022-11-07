@@ -38,7 +38,7 @@ getVersionsofActions(s).then((res) => {
     if (res) {
         var json_data = JSON.stringify(res);
         var actions_db = [];
-        getExistAction(action_db).then((res) => {
+        getExistAction(actions_db).then((res) => {
             if (res) {
                 console.log("数据库中无该配置文件，新增：");
     
@@ -93,7 +93,7 @@ async function getVersion(owner, repo) {
 }
 
 
-async function getExistAction(action_db) {
+async function getExistAction(actions_db) {
     var sql = 'SELECT actions FROM action where project = ? and workflow = ?';
     let params = [event.repository.id, process.env.GITHUB_WORKFLOW];
     let [error, data] = await mysqlExec(sql, params);
