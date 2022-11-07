@@ -65,6 +65,7 @@ for (i = 0; i < s.length; i++) {
             getVersion(a[0], a[1]).then((v)=>{
                 console.log(action + ` latest version:${v[0].tag_name}`);
                 use_version = v[0].tag_name;
+                action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
             },(v)=>{ console.log("运行错误2:"+ JSON.stringify(res)); });
         } else {
             let regex = new RegExp(need_version+"(\\S*)");
@@ -77,12 +78,14 @@ for (i = 0; i < s.length; i++) {
                         break;
                     }
                 }
+                action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
             },(v)=>{ console.log("运行错误3:"+ JSON.stringify(res)); });
         }
     } else {
         console.log(action + ` concrete version:${need_version}`);
+        action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
     }
-    action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
+    
     //console.log(JSON.stringify(action_list[i]));
 }
 
