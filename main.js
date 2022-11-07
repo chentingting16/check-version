@@ -72,7 +72,7 @@ for (i = 0; i < s.length; i++) {
                 for (let obj of v) {
                     let tag = obj.tag_name;
                     if (tag.match(regex)) {
-                        use_version = v.tag_name;
+                        use_version = tag;
                         console.log(action + ` matched version:${use_version}`);
                         break;
                     }
