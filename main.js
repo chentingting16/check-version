@@ -68,9 +68,9 @@ for (i = 0; i < s.length; i++) {
             },(v)=>{ console.log("运行错误2:"+ JSON.stringify(res)); });
         } else {
             let regex = new RegExp(need_version+"(\\S*)");
-             getVersion(a[0], a[1]).then((v)=>{
+            getVersion(a[0], a[1]).then((v)=>{
                 for (let obj of v) {
-                    v.tag_name.match(regex) {
+                    if (v.tag_name.match(regex)) {
                         use_version = v.tag_name;
                         break;
                     }
