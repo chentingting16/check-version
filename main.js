@@ -70,12 +70,12 @@ for (i = 0; i < s.length; i++) {
             let regex = new RegExp(need_version+"(\\S*)");
             getVersion(a[0], a[1]).then((v)=>{
                 for (let obj of v) {
-                    let tag = v.tag_name;
-                    console.log(tag);
-//                     if (tag.match(regex)) {
-//                         use_version = v.tag_name;
-//                         break;
-//                     }
+                    let tag = obj.tag_name;
+                     console.log(tag);
+                     if (tag.match(regex)) {
+                         use_version = v.tag_name;
+                         break;
+                     }
                 }
             },(v)=>{ console.log("运行错误3:"+ JSON.stringify(res)); });
         }
