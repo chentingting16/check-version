@@ -160,15 +160,15 @@ async function getVersionsofActions(s) {
         let use_version = need_version;
         if (!isConcrete) {
             let a = action.split("/");
+            var v = await getVersion(a[0], a[1]);
             if (isLatest) {
-                use_version = await getVersion(a[0], a[1])[0].tag_name;
+                use_version = v[0].tag_name;
                 // then((v) => {
                 //     console.log(action + ` latest version:${v[0].tag_name}`);
                 //     use_version = v[0].tag_name;
                 // }, (v) => { console.log("运行错误2:" + JSON.stringify(res)); });
             } else {
                 let regex = new RegExp(need_version + "(\\S*)");
-                var vs = await getVersion(a[0], a[1]);
                 for (let obj of v) {
                     let tag = obj.tag_name;
                     if (tag.match(regex)) {
@@ -177,7 +177,6 @@ async function getVersionsofActions(s) {
                         break;
                     }
                 }
-
                 // getVersion(a[0], a[1]).then((v) => {
                 //     for (let obj of v) {
                 //         let tag = obj.tag_name;
