@@ -47,7 +47,7 @@ getVersionsofActions(s).then((res) => {
                 console.log("数据库中已有该配置文件，对比如下：");
                 // 新的action_list与旧的action_list对比
                 for (var j = 0; j < actions_db.length; j++) {
-                   // console.log(actions_db[i].name + "   use:version"+actions_db[i].use_version);
+                   console.log(actions_db[i].name + "   use:version"+actions_db[i].use_version);
                 }
                 // 1) 新的是确切版本 --- 不管
                 
@@ -100,7 +100,7 @@ async function getExistAction(actions_db) {
     if (error) {
         if (data == null || data[0] == null) return true;
         let actions_obj = JSON.parse(data[0].actions);
-        console.log(JSON.stringify(data[0].actions));
+        //console.log(JSON.stringify(data[0].actions));
         let i = 0;
         for (let obj of actions_obj) {
             //console.log(`name:${obj.name}`);
