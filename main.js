@@ -97,7 +97,7 @@ function sleep (time) {
  
 sleep(3000).then(() => {
     json_data = json_data+JSON.stringify(action_list)
-}
+});
 
 
 var actions_db = [];
