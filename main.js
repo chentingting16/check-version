@@ -95,7 +95,7 @@ function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
  
-sleep(3000).then(() => {
+sleep(5000).then(() => {
     json_data = json_data+JSON.stringify(action_list);
     var actions_db = [];
     let mysqlExec = require('./util.js');
