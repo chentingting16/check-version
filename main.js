@@ -59,7 +59,7 @@ getVersionsofActions(s).then((fileaction) => {
                         if (fileaction[i].name == actions_db[j].name) {
                             if (fileaction[i].use_version != actions_db[j].use_version) {
                                 new_json_data.push(fileaction[i]);
-                                console.log((count+1)+"、 "actions_db[j].name +" 版本差异： 上次--"+actions_db[j].use_version + "  本次--"+fileaction[i].use_version);
+                                console.log((count+1)+". "+actions_db[j].name +" 版本差异： 上次--"+actions_db[j].use_version + "  本次--"+fileaction[i].use_version);
                                 count++;
                             }
                             else {
