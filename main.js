@@ -59,8 +59,8 @@ for (i = 0; i < s.length; i++) {
     let isConcrete = posPattern.test(need_version);
     let use_version = need_version;
     if (!isConcrete) {
+        let a = action.split("/");
         if (isLatest) {
-            let a = action.split("/");
             use_version = need_version;
             getVersion(a[0], a[1]).then((v)=>{
                 console.log(action + ` latest version:${v[0].tag_name}`);
