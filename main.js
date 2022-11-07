@@ -41,10 +41,10 @@ getVersionsofActions(s).then((fileaction) => {
         var new_json_data = [];
         getExistAction(actions_db).then((res) => {
             if (res) {
-                console.log("数据库中无该配置文件，新增：");
+                console.log("【数据库中无该配置文件，新增】");
                 insertAction(json_data);
             } else {
-                console.log("数据库中已有该配置文件，内容如下");
+                console.log("【数据库中已有该配置文件，内容如下】");
                 //新的action_list与旧的action_list对比
                 for (var j = 0; j < actions_db.length; j++) {
                    console.log(actions_db[j].name + "   use version: "+actions_db[j].use_version);
@@ -52,14 +52,14 @@ getVersionsofActions(s).then((fileaction) => {
                 // 1) 新的是确切版本 --- 不管
                 // 2) 新的是lastest或v2 --- 对比版本
                 console.log(" ");
-                console.log("数据库中已有该配置文件，对比如下：");
+                console.log("【版本对比】");
                 let count = 0;
                 for (var i = 0; i < fileaction.length; i++) {
                     for (var j = 0; j < actions_db.length; j++) {
                         if (fileaction[i].name == actions_db[j].name) {
                             if (fileaction[i].use_version != actions_db[j].use_version) {
                                 new_json_data.push(fileaction[i]);
-                                console.log(actions_db[j].name +" 版本差异： 上次--"+actions_db[j].use_version + "  本次--"+fileaction[i].use_version);
+                                console.log((count+1)+"、 "actions_db[j].name +" 版本差异： 上次--"+actions_db[j].use_version + "  本次--"+fileaction[i].use_version);
                                 count++;
                             }
                             else {
@@ -69,7 +69,7 @@ getVersionsofActions(s).then((fileaction) => {
                     }
                 }  
                 if (count == 0) {
-                    console.log("与上次运行使用的版本均一致~")
+                    console.log("【与上次运行使用的版本均一致】")
                 } else {
                     updateAction(JSON.stringify(new_json_data));  
                 }
