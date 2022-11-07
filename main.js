@@ -1,11 +1,3 @@
-function Action(name,need_version,use_version,isLatest,isConcrete) {
-    this.name = name;
-    this.need_version = need_version;
-    this.use_version = use_version;
-    this.isLatest = isLatest;
-    this.isConcrete = isConcrete;
-}
-
 const path = require("path");
 const cp = require("child_process");
 cp.execSync("npm install mysql");
@@ -18,7 +10,7 @@ const event = require(process.env.GITHUB_EVENT_PATH);
 const {INPUT_PATH, INPUT_FILE, INPUT_TOKEN} = process.env;
 var file = path.join(INPUT_PATH, INPUT_FILE);
 
-// https://developer.github.com/v3/repos/contents/#get-contents
+
 const res = cp.spawnSync("curl", [
     "--header",
     "Accept: application/vnd.github.v3.raw",
@@ -29,11 +21,6 @@ const res = cp.spawnSync("curl", [
 ]);
 
 
-// 获取版本号
-// https://blog.csdn.net/catoop/article/details/121543187
-// https://blog.csdn.net/weixin_34416649/article/details/93643111?spm=1001.2101.3001.6650.4&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-4-93643111-blog-121543187.pc_relevant_3mothn_strategy_recovery&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-4-93643111-blog-121543187.pc_relevant_3mothn_strategy_recovery&utm_relevant_index=9
-// VERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")
-// echo $VERSION
 
 if (res.status != 0) {
     console.log(`::error ::${res.stderr.toString()}`);
@@ -47,25 +34,26 @@ var s = str.split("\n").filter(function (e) {
     return k[0].includes("uses");
 });
 
-
 getVersionsofActions(s).then((res) => {
     if (res) {
         var json_data = JSON.stringify(res);
         var actions_db = [];
-        getExistAction().then((res) => {
+        getExistAction(action_db).then((res) => {
             if (res) {
-                console.log("数据库中无该配置文件，新增");
-                //查询当前 模糊版本的确切版本
+                console.log("数据库中无该配置文件，新增：");
     
                 insertAction(json_data);
             } else {
-                console.log("有数据了");
+                console.log("数据库中已有该配置文件，对比如下：");
                 // 新的action_list与旧的action_list对比
+                for (var j = 0; j < actions_db.length; j++) {
+                    console.log(actions_db[i]);
+                }
                 // 1) 新的是确切版本 --- 不管
-    
+                
                 // 2) 新的是lastest或v2 --- 对比版本
-    
-    
+
+                    
             }
         }, (res) => {
             console.log("运行错误:" + res);
@@ -77,39 +65,20 @@ getVersionsofActions(s).then((res) => {
     console.log("运行错误:" + res);
 });
 
-// var json_data = JSON.stringify(action_list);
-// var actions_db = [];    
-// getExistAction().then((res)=>{
-//     if (res) {
-//         console.log("数据库中无该配置文件，新增");
-//         //查询当前 模糊版本的确切版本
-
-//         insertAction(json_data);
-//     } else {
-//         console.log("有数据了");
-//         // 新的action_list与旧的action_list对比
-//         // 1) 新的是确切版本 --- 不管
-
-//         // 2) 新的是lastest或v2 --- 对比版本
-
-
-//     }
-// },(res)=>{ console.log("运行错误:"+res);
-// });
 
 async function insertAction(json_data) {
     let sql = "INSERT INTO action(project,workflow,actions,last_modified) VALUES (?,?,?,now())";
     let params = [event.repository.id, process.env.GITHUB_WORKFLOW, json_data];
     let [error, data] = await mysqlExec(sql, params);
     if (error) {
-        console.log('插入成功' + data);
+        console.log('插入成功:' + json_data);
     } else {
         console.log('sql执行失败' + data);
     }
 }
 
 async function getVersion(owner, repo) {
-    //console.log(owner+" "+repo);
+
     let octokit = new Octokit({
         auth: INPUT_TOKEN
     });
@@ -119,19 +88,19 @@ async function getVersion(owner, repo) {
         repo: repo
     });
 
-    //console.log('response.data hhhh:', response.data); 
+
     return response.data;
 }
 
 
-async function getExistAction() {
+async function getExistAction(action_db) {
     var sql = 'SELECT actions FROM action where project = ? and workflow = ?';
     let params = [event.repository.id, process.env.GITHUB_WORKFLOW];
     let [error, data] = await mysqlExec(sql, params);
     if (error) {
         if (data == null || data[0] == null) return true;
         let actions_obj = JSON.parse(data[0].actions);
-        //[{\"name\":\"actions/checkout\",\"version\":\"v2\"},{\"name\":\"actions/cache\",\"version\":\"v2\"},{\"name\":\"actions/stale\",\"version\":\"v6.0.1\"}]
+    
         let i = 0;
         for (let obj of actions_obj) {
             console.log(`name:${obj.name}`);
@@ -153,7 +122,6 @@ async function getVersionsofActions(s) {
         let action_version = temp[1].trim().split("@");
         let action = action_version[0];
         let need_version = action_version[1];
-        // function Action(name,need_version,use_version,isLatest,isConcrete) {
         let isLatest = need_version.includes("lastest");
         var posPattern = /^v\d+\.\d+\.\d+$/;
         let isConcrete = posPattern.test(need_version);
@@ -163,10 +131,7 @@ async function getVersionsofActions(s) {
             var v = await getVersion(a[0], a[1]);
             if (isLatest) {
                 use_version = v[0].tag_name;
-                // then((v) => {
-                //     console.log(action + ` latest version:${v[0].tag_name}`);
-                //     use_version = v[0].tag_name;
-                // }, (v) => { console.log("运行错误2:" + JSON.stringify(res)); });
+
             } else {
                 let regex = new RegExp(need_version + "(\\S*)");
                 for (let obj of v) {
@@ -177,23 +142,21 @@ async function getVersionsofActions(s) {
                         break;
                     }
                 }
-                // getVersion(a[0], a[1]).then((v) => {
-                //     for (let obj of v) {
-                //         let tag = obj.tag_name;
-                //         if (tag.match(regex)) {
-                //             use_version = tag;
-                //             console.log(action + ` matched version:${use_version}`);
-                //             break;
-                //         }
-                //     }
-                // }, (v) => { console.log("运行错误3:" + JSON.stringify(res)); });
             }
         } else {
             console.log(action + ` concrete version:${need_version}`);
         }
 
         action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
-        //console.log(JSON.stringify(action_list[i]));
     }
     return action_list;
+}
+
+
+function Action(name,need_version,use_version,isLatest,isConcrete) {
+    this.name = name;
+    this.need_version = need_version;
+    this.use_version = use_version;
+    this.isLatest = isLatest;
+    this.isConcrete = isConcrete;
 }
