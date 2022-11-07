@@ -82,9 +82,14 @@ for (i = 0; i < s.length; i++) {
     } else {
         console.log(action + ` concrete version:${need_version}`);
     }
+    let t = true;
     sleep(5000).then(() => { 
         action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
+        t = false;
     });
+    while (t) {
+    
+    }
     //console.log(JSON.stringify(action_list[i]));
 }
 
