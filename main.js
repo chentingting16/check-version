@@ -89,8 +89,15 @@ for (i = 0; i < s.length; i++) {
     //console.log(JSON.stringify(action_list[i]));
 }
 
-var json_data = JSON.stringify(action_list);
 
+var json_data = '';
+function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+ 
+sleep(3000).then(() => {
+    json_data = json_data+JSON.stringify(action_list)
+}
 
 
 var actions_db = [];
