@@ -100,7 +100,7 @@ async function getExistAction(actions_db) {
     if (error) {
         if (data == null || data[0] == null) return true;
         let actions_obj = JSON.parse(data[0].actions);
-    
+        console.log(JSON.stringify(res));
         let i = 0;
         for (let obj of actions_obj) {
             //console.log(`name:${obj.name}`);
