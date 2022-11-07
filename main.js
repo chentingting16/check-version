@@ -12,7 +12,7 @@ cp.execSync("npm install mysql");
 cp.execSync("npm install request");
 cp.execSync("npm install @octokit/core");
 const { Octokit } = require("@octokit/core");
-
+let mysqlExec = require('./util.js');
 
 const event = require(process.env.GITHUB_EVENT_PATH);
 const {INPUT_PATH, INPUT_FILE, INPUT_TOKEN} = process.env;
