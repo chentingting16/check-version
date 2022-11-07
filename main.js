@@ -124,6 +124,7 @@ async function getExistAction(actions_db) {
 
 async function getVersionsofActions(s) {
     var action_list = [];
+    console.log("配置文件中的action及实际使用版本:");
     for (i = 0; i < s.length; i++) {
         let temp = s[i].split(':');
         let action_version = temp[1].trim().split("@");
@@ -133,7 +134,6 @@ async function getVersionsofActions(s) {
         var posPattern = /^v\d+\.\d+\.\d+$/;
         let isConcrete = posPattern.test(need_version);
         let use_version = need_version;
-        console.log("配置文件中的action及实际使用版本:");
         if (!isConcrete) {
             let a = action.split("/");
             var v = await getVersion(a[0], a[1]);
