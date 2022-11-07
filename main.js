@@ -151,20 +151,20 @@ async function getVersionsofActions(s) {
             var v = await getVersion(a[0], a[1]);
             if (isLatest) {
                 use_version = v[0].tag_name;
-                console.log(action + ` latest version:${use_version}`);
+                console.log(action + `need-version: ${need_version} ` +` latest-version:${use_version}`);
             } else {
                 let regex = new RegExp(need_version + "(\\S*)");
                 for (let obj of v) {
                     let tag = obj.tag_name;
                     if (tag.match(regex)) {
                         use_version = tag;
-                        console.log(action + ` matched version:${use_version}`);
+                        console.log(action + `need-version: ${need_version} `+ ` matched-version:${use_version}`);
                         break;
                     }
                 }
             }
         } else {
-            console.log(action + ` concrete version:${need_version}`);
+            console.log(action + `need-version: ${need_version} `+ ` concrete-version:${need_version}`);
         }
 
         action_list[i] = new Action(action, need_version, use_version, isLatest, isConcrete);
