@@ -47,7 +47,7 @@ getVersionsofActions(s).then((fileaction) => {
                 console.log("【数据库中已有该配置文件，内容如下】");
                 //新的action_list与旧的action_list对比
                 for (var j = 0; j < actions_db.length; j++) {
-                   console.log(actions_db[j].name + "   use version: "+actions_db[j].use_version);
+                   console.log(actions_db[j].name + "   used-version: "+actions_db[j].use_version);
                 }
                 // 1) 新的是确切版本 --- 不管
                 // 2) 新的是lastest或v2 --- 对比版本
@@ -69,8 +69,9 @@ getVersionsofActions(s).then((fileaction) => {
                     }
                 }  
                 if (count == 0) {
-                    console.log("【与上次运行使用的版本均一致】")
+                    console.log("与上次运行使用的版本均一致")
                 } else {
+                    console.log(" ");
                     updateAction(JSON.stringify(new_json_data));  
                 }
             }
