@@ -12,5 +12,5 @@ jobs:
       - name: check fill
         uses: actions/cache@lastest
       - uses: actions/stale@v6.0.1
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v2
      
