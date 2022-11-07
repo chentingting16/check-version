@@ -34,26 +34,33 @@ var s = str.split("\n").filter(function (e) {
     return k[0].includes("uses");
 });
 
-getVersionsofActions(s).then((res) => {
-    if (res) {
-        var json_data = JSON.stringify(res);
+getVersionsofActions(s).then((fileaction) => {
+    if (fileaction) {
+        var json_data = JSON.stringify(fileaction);
         var actions_db = [];
+        var new_json_data = [];
         getExistAction(actions_db).then((res) => {
             if (res) {
                 console.log("数据库中无该配置文件，新增：");
-    
                 insertAction(json_data);
             } else {
                 console.log("数据库中已有该配置文件，对比如下：");
                 // 新的action_list与旧的action_list对比
                 for (var j = 0; j < actions_db.length; j++) {
-                   console.log(actions_db[j].name + "   use:version"+actions_db[j].use_version);
+                   console.log("数据库中: " + actions_db[j].name + "   use version: "+actions_db[j].use_version);
                 }
                 // 1) 新的是确切版本 --- 不管
-                
                 // 2) 新的是lastest或v2 --- 对比版本
-
-                    
+                for (var i = 0; i < fileaction.length; i++) {
+                    for (var j = 0; j < actions_db.length; j++) {
+                        if (fileaction[i].name == actions_db[j].name) {
+                            if (fileaction[i].use_version != actions_db[j].use_version) {
+                                new_json_data.push(fileaction[i]);
+                                console.log(actions_db[j].name +" 版本差异： 上次--"+actions_db[j].use_version + "  本次--"+fileaction[i].use_version);
+                            }
+                        }
+                    }
+                }    
             }
         }, (res) => {
             console.log("运行错误:" + res);
