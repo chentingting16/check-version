@@ -46,9 +46,9 @@ getVersionsofActions(s).then((fileaction) => {
             } else {
                 console.log("数据库中已有该配置文件，对比如下：");
                 // 新的action_list与旧的action_list对比
-                for (var j = 0; j < actions_db.length; j++) {
-                   console.log("数据库中: " + actions_db[j].name + "   use version: "+actions_db[j].use_version);
-                }
+//                 for (var j = 0; j < actions_db.length; j++) {
+//                    console.log("数据库中: " + actions_db[j].name + "   use version: "+actions_db[j].use_version);
+//                 }
                 // 1) 新的是确切版本 --- 不管
                 // 2) 新的是lastest或v2 --- 对比版本
                 for (var i = 0; i < fileaction.length; i++) {
