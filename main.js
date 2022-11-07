@@ -71,11 +71,11 @@ for (i = 0; i < s.length; i++) {
             getVersion(a[0], a[1]).then((v)=>{
                 for (let obj of v) {
                     let tag = obj.tag_name;
-                     console.log(tag);
-                     if (tag.match(regex)) {
-                         use_version = v.tag_name;
-                         break;
-                     }
+                    if (tag.match(regex)) {
+                        use_version = v.tag_name;
+                        console.log(action + ` matched version:${use_version}`);
+                        break;
+                    }
                 }
             },(v)=>{ console.log("运行错误3:"+ JSON.stringify(res)); });
         }
